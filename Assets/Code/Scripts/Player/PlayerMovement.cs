@@ -32,9 +32,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        horizontalInput = playerStateMachine.MovementState(isGrounded, rb.velocity.y);
+        playerStateMachine.AttackState(isGrounded, Input.GetKeyDown(KeyCode.J));
         
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
+        if(!playerStateMachine.IsInActionState())
+        {
+            if(Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
+        
+            horizontalInput = playerStateMachine.MovementState(isGrounded, rb.velocity.y);
+        }
+        else horizontalInput = 0;
         
         CheckIfGrounded();
     }
@@ -61,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         bool currentlyGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isGrounded = currentlyGrounded;
-        if (isGrounded && playerStateMachine.currentState == PlayerStateMachine.PlayerState.Fall)
+        if (isGrounded && playerStateMachine.LandedState())
         {
             playerStateMachine.IdleState();
         }

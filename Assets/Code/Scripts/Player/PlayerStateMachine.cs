@@ -122,7 +122,22 @@ public class PlayerStateMachine : MonoBehaviour
     {
         ChangeState(PlayerState.Jump);
     }
-    
+
+    public bool LandedState()
+    {
+        if(currentState == PlayerState.Fall) return true;
+        return false;
+    }
+
+    public void AttackState(bool isGrounded, bool attackInputKey)
+    {
+        if(attackInputKey)
+        {
+            if(isGrounded) ChangeState(PlayerState.Attack);
+            else ChangeState(PlayerState.JumpAttack);
+        }
+    }
+
     public void FallState()
     {
         ChangeState(PlayerState.Fall);
@@ -136,5 +151,16 @@ public class PlayerStateMachine : MonoBehaviour
     public void DeathState()
     {
         ChangeState(PlayerState.Death);
+    }
+    
+    public bool IsInActionState()
+    {
+        return currentState == PlayerState.Attack || 
+               // currentState == PlayerState.JumpAttack ||
+               // currentState == PlayerState.JumpShoot ||
+               currentState == PlayerState.DoubleStrike ||
+               currentState == PlayerState.SpecialAttack ||
+               currentState == PlayerState.Roll ||
+               currentState == PlayerState.Dash; 
     }
 }
