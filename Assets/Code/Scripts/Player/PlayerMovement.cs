@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
         
-            horizontalInput = playerStateMachine.MovementState(isGrounded, rb.velocity.y);
+            horizontalInput = playerStateMachine.MovementState(isGrounded, rb.linearVelocity.y);
         }
         else horizontalInput = 0;
         
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
         
         if ((horizontalInput > 0 && !isFacingRight) || (horizontalInput < 0 && isFacingRight))
         {
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         if (!isGrounded) return;
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         playerStateMachine.JumpState();
         isGrounded = false;
     }

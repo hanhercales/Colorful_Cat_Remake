@@ -34,7 +34,7 @@ public class PlayerStateMachine : MonoBehaviour
     
     private Animator animator;
     
-    public Dictionary<PlayerState, string> stateNameDict = new Dictionary<PlayerState, string>();
+    private Dictionary<PlayerState, string> stateNameDict = new Dictionary<PlayerState, string>();
 
     private void Awake()
     {
@@ -122,6 +122,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         ChangeState(PlayerState.Jump);
     }
+    
+    public void FallState()
+    {
+        ChangeState(PlayerState.Fall);
+    }
 
     public bool LandedState()
     {
@@ -133,14 +138,15 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if(attackInputKey)
         {
-            if(isGrounded) ChangeState(PlayerState.Attack);
-            else ChangeState(PlayerState.JumpAttack);
+            if(isGrounded)
+            {
+                ChangeState(PlayerState.Attack);
+            }
+            else
+            {
+                ChangeState(PlayerState.JumpAttack);
+            }
         }
-    }
-
-    public void FallState()
-    {
-        ChangeState(PlayerState.Fall);
     }
     
     public void HurtState()
@@ -155,9 +161,7 @@ public class PlayerStateMachine : MonoBehaviour
     
     public bool IsInActionState()
     {
-        return currentState == PlayerState.Attack || 
-               // currentState == PlayerState.JumpAttack ||
-               // currentState == PlayerState.JumpShoot ||
+        return currentState == PlayerState.Attack ||
                currentState == PlayerState.DoubleStrike ||
                currentState == PlayerState.SpecialAttack ||
                currentState == PlayerState.Roll ||
