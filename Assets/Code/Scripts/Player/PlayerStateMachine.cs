@@ -104,16 +104,18 @@ public class PlayerStateMachine : MonoBehaviour
         return horizontal;
     }
 
-    public float AirState(float verticalVelocity)
+    private float AirState(float verticalVelocity)
     {
-        if (verticalVelocity > 0.1f)
+        if(currentState != PlayerState.JumpAttack)
         {
-            ChangeState(PlayerState.Jump);
-        }
-        
-        else if (verticalVelocity < -0.1f)
-        {
-            ChangeState(PlayerState.Fall);
+            if (verticalVelocity > 0.1f && currentState != PlayerState.DoubleJump)
+            {
+                ChangeState(PlayerState.Jump);
+            }
+            else if (verticalVelocity < -0.1f)
+            {
+                ChangeState(PlayerState.Fall);
+            }
         }
         return Input.GetAxis("Horizontal");
     }
@@ -121,6 +123,11 @@ public class PlayerStateMachine : MonoBehaviour
     public void JumpState()
     {
         ChangeState(PlayerState.Jump);
+    }
+
+    public void DoubleJumpState()
+    {
+        ChangeState(PlayerState.DoubleJump);
     }
     
     public void FallState()
@@ -134,19 +141,17 @@ public class PlayerStateMachine : MonoBehaviour
         return false;
     }
 
-    public void AttackState(bool isGrounded, bool attackInputKey)
+    public void AttackState(bool isGrounded, int airActionsRemaining)
     {
-        if(attackInputKey)
-        {
             if(isGrounded)
             {
                 ChangeState(PlayerState.Attack);
             }
             else
             {
-                ChangeState(PlayerState.JumpAttack);
+                if(airActionsRemaining > 0)
+                    ChangeState(PlayerState.JumpAttack);
             }
-        }
     }
     
     public void HurtState()

@@ -13,30 +13,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private int maxAirction = 2;
 
     private float horizontalInput;
     private bool isFacingRight = true;
-    [SerializeField] private bool isGrounded;
+    private bool isGrounded;
+    [SerializeField] private int airActionsRemaining;
 
     private void Awake()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        airActionsRemaining = maxAirction;
     }
 
     void Update()
     {
-        playerStateMachine.AttackState(isGrounded, Input.GetKeyDown(KeyCode.J));
+        HandleAttack(Input.GetKeyDown(KeyCode.J));
         
         if(!playerStateMachine.IsInActionState())
         {
-            if(Input.GetKeyDown(KeyCode.Space) && isGrounded) Jump();
+            if(Input.GetKeyDown(KeyCode.Space)) Jump();
         
             horizontalInput = playerStateMachine.MovementState(isGrounded, rb.linearVelocity.y);
         }
@@ -54,13 +51,34 @@ public class PlayerMovement : MonoBehaviour
             Flip();
         }
     }
-    
-    public void Jump()
+
+    private void HandleAttack(bool inputKey)
     {
-        if (!isGrounded) return;
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        playerStateMachine.JumpState();
-        isGrounded = false;
+        if(inputKey)
+        {
+            playerStateMachine.AttackState(isGrounded, airActionsRemaining);
+            if (!isGrounded && airActionsRemaining > 0) airActionsRemaining--;
+        }
+    }
+    
+    private void Jump()
+    {
+        if (airActionsRemaining > 0)
+        {
+            if (!isGrounded && airActionsRemaining < maxAirction)
+            {
+                playerStateMachine.DoubleJumpState();
+            }
+            else if (isGrounded)
+            {
+                playerStateMachine.JumpState();
+            }
+            
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+            airActionsRemaining--;
+            isGrounded = false;
+        }
     }
 
     private void CheckIfGrounded()
@@ -70,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && playerStateMachine.LandedState())
         {
             playerStateMachine.IdleState();
+            airActionsRemaining = 2;
         }
     }
     
