@@ -129,6 +129,11 @@ public class PlayerStateMachine : MonoBehaviour
     {
         ChangeState(PlayerState.DoubleJump);
     }
+
+    public void ClimbState()
+    {
+        ChangeState(PlayerState.ClimbLadder);
+    }
     
     public void FallState()
     {
