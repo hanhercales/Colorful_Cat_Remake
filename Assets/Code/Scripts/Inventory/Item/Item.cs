@@ -16,7 +16,6 @@ public class Item : ScriptableObject
     public string itemDescription;
     public int maxQuantity;
     public int quantity;
-    public int price;
     public bool isEquipped;
     public string targetInventoryName;
 
