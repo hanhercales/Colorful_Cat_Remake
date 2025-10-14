@@ -120,14 +120,16 @@ public class PlayerStateMachine : MonoBehaviour
         return Input.GetAxis("Horizontal");
     }
     
-    public void JumpState()
+    public Vector2 JumpState(float velocityX, float jumpForce)
     {
         ChangeState(PlayerState.Jump);
+        return new Vector2(velocityX, jumpForce);
     }
 
-    public void DoubleJumpState()
+    public Vector2 DoubleJumpState(float velocityX, float jumpForce)
     {
         ChangeState(PlayerState.DoubleJump);
+        return new Vector2(velocityX, jumpForce);
     }
     
     public void FallState()

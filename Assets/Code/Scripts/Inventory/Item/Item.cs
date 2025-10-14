@@ -42,6 +42,11 @@ public class Item : ScriptableObject
         isEquipped = false;
         return true;
     }
+
+    public string GetDescription()
+    {
+        return itemDescription;
+    }
     
     public void AddQuantity(int amount)
     {

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2d0c7d7e98b2243acd31da50eb5ced, type: 3}
+  m_Name: Form01
+  m_EditorClassIdentifier: Assembly-CSharp::FormItem
+  itemID: Form00
+  itemName: Blank Form
+  itemIcon: {fileID: 0}
+  itemType: 1
+  itemDescription: Basic Form without any special abilities.
+  maxQuantity: 1
+  quantity: 0
+  price: 0
+  isEquipped: 0
+  targetInventoryName: Inventory
+  form: 0
+  ability: {fileID: 0}
