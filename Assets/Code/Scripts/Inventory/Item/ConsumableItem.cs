@@ -3,19 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewConsumableItem", menuName = "Item/Consumable Item")]
 public class ConsumableItem : Item
 {
-    public enum ItemEffect
-    {
-        Heal,
-    }
-    
-    public new ItemType itemType => ItemType.Consumable;
-    public ItemEffect itemEffect;
-    public int effectValue;
+    public Effect itemEffect;
 
     public bool UseItem(PlayerStats stats)
     {
-        if (itemEffect == ItemEffect.Heal)
-            stats.gameObject.AddComponent<InstantHeal>().SetEffectValue(effectValue);
+        if(stats == null || quantity <= 0) return false;
+        stats.gameObject.GetComponent<EffectManager>().ApplyEffect(itemEffect);
         quantity--;
         return true;
     }

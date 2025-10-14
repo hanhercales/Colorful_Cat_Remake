@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
-    [SerializeField] private int maxAirction = 2;
+    [SerializeField] private int maxAirAction = 2;
 
     private float horizontalInput;
     private bool isFacingRight = true;
@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
         rb = GetComponent<Rigidbody2D>();
-        airActionsRemaining = maxAirction;
+        airActionsRemaining = maxAirAction;
     }
 
     void Update()
@@ -65,18 +65,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (airActionsRemaining > 0)
         {
-            if (!isGrounded && airActionsRemaining < maxAirction)
+            if (!isGrounded && airActionsRemaining < maxAirAction && AbilityManager.instance.IsAbilityUnlocked(AbilityID.DoubleJump))
             {
-                playerStateMachine.DoubleJumpState();
+                rb.linearVelocity = playerStateMachine.DoubleJumpState(rb.linearVelocity.x, jumpForce);
+                airActionsRemaining--;
             }
             else if (isGrounded)
             {
-                playerStateMachine.JumpState();
+                rb.linearVelocity = playerStateMachine.JumpState(rb.linearVelocity.x, jumpForce);
+                airActionsRemaining--;
             }
             
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-
-            airActionsRemaining--;
             isGrounded = false;
         }
     }
