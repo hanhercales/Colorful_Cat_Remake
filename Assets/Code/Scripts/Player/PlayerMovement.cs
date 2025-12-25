@@ -3,21 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Movement
 {
     private PlayerStateMachine playerStateMachine;
-    private Rigidbody2D rb;
-    
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float jumpForce = 6f;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
-    [SerializeField] private int maxAirAction = 2;
-
     private float horizontalInput;
-    private bool isFacingRight = true;
-    private bool isGrounded;
+    
+    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private int maxAirAction = 2;
     [SerializeField] private int airActionsRemaining;
 
     private void Awake()
@@ -38,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
             horizontalInput = playerStateMachine.MovementState(isGrounded, rb.linearVelocity.y);
         }
         else horizontalInput = 0;
+        if (!canMove) horizontalInput = 0;
         
         CheckIfGrounded();
     }
@@ -65,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (airActionsRemaining > 0)
         {
-            if (!isGrounded && airActionsRemaining < maxAirAction && AbilityManager.instance.IsAbilityUnlocked(AbilityID.DoubleJump))
+            if (!isGrounded && airActionsRemaining < maxAirAction)
             {
                 rb.linearVelocity = playerStateMachine.DoubleJumpState(rb.linearVelocity.x, jumpForce);
                 airActionsRemaining--;
@@ -80,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckIfGrounded()
+    protected override void CheckIfGrounded()
     {
         bool currentlyGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isGrounded = currentlyGrounded;
@@ -91,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     
-    private void Flip()
+    protected override void Flip()
     {
         isFacingRight = !isFacingRight;
         
@@ -103,14 +96,5 @@ public class PlayerMovement : MonoBehaviour
         // {
         //     keyFollower.horizontalOffset *= -1;
         // }
-    }
-    
-    private void OnDrawGizmos()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
     }
 }

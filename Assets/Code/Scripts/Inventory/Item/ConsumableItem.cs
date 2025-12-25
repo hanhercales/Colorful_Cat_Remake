@@ -3,13 +3,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewConsumableItem", menuName = "Item/Consumable Item")]
 public class ConsumableItem : Item
 {
-    public Effect itemEffect;
-
-    public bool UseItem(PlayerStats stats)
+    public Effect effect;
+    
+    public bool UseItem(GameObject target)
     {
-        if(stats == null || quantity <= 0) return false;
-        stats.gameObject.GetComponent<EffectManager>().ApplyEffect(itemEffect);
-        quantity--;
-        return true;
+        if(target == null || quantity <= 0) return false;
+        if(effect.OnApply(target, target))
+        {
+            quantity--;
+            return true;
+        }
+        return false;
     }
 }
