@@ -279,12 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575aa976e32b8224bbbe99525a3c9084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectHandler
-  activeEffects:
-  - effect: {fileID: 11400000, guid: edb29f585a81bec4a8c60f287b5f49e8, type: 2}
-    overtimeEffect: {fileID: 11400000, guid: edb29f585a81bec4a8c60f287b5f49e8, type: 2}
-    timer: 5
-    tickTimer: 1
-    source: {fileID: 1286881303}
+  activeEffects: []
 --- !u!1 &1702786012
 GameObject:
   m_ObjectHideFlags: 0

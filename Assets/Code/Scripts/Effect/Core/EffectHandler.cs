@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ public class EffectHandler : MonoBehaviour
     [System.Serializable]
     public class ActiveEffect
     {
-        public Effect effect;
         public OvertimeEffect overtimeEffect;
         public float timer;
         public float tickTimer;
@@ -14,7 +14,6 @@ public class EffectHandler : MonoBehaviour
         
         public void Reset()
         {
-            effect = null;
             overtimeEffect = null;
             timer = 0;
             tickTimer = 0;
@@ -39,7 +38,7 @@ public class EffectHandler : MonoBehaviour
 
         if (effect is OvertimeEffect overtimeEffect)
         {
-            ActiveEffect existing =  activeEffects.Find(x => x.effect == overtimeEffect);
+            ActiveEffect existing =  activeEffects.Find(x => x.overtimeEffect == overtimeEffect);
 
             if (existing != null)
             {
@@ -48,14 +47,14 @@ public class EffectHandler : MonoBehaviour
                 return;
             }
             
-            ActiveEffect newEffect = new ActiveEffect();
-            newEffect.effect = effect;
+            ActiveEffect newEffect = GetFromPool();
             newEffect.source = source;
             newEffect.timer = overtimeEffect.duration;
             newEffect.tickTimer = overtimeEffect.tickInterval;
             newEffect.overtimeEffect = overtimeEffect;
             
             overtimeEffect.OnApply(this.gameObject, source);
+            overtimeEffect.OnTick(this.gameObject);
             
             activeEffects.Add(newEffect);
         }

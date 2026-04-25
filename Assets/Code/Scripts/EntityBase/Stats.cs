@@ -6,7 +6,7 @@ public class Stats : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
 
-    private void Start()
+    private void Awake()
     {
         currentHealth = maxHealth;
     }
