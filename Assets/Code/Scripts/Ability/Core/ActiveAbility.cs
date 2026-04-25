@@ -1,16 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveAbility : MonoBehaviour
+public class ActiveAbility : Ability
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float cooldownTime;
+    //public float castTime;
+    public AnimationClip animationClip;
+    
+    public List<Effect>  effectsToApply;
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Activate(GameObject source, GameObject target)
     {
-        
+        GameObject actualTarget = target != null  ? target : source;
+
+        if (actualTarget.TryGetComponent(out EffectHandler handler))
+        {
+            foreach (Effect effect in effectsToApply)
+            {
+                handler.AddEffect(effect, source);
+            }
+        }
     }
 }

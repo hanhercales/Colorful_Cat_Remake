@@ -1,9 +1,15 @@
+using System;
 using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
+
+    private void Awake()
+    {
+        currentHealth = maxHealth;
+    }
 
     public void TakeDamage(float amount)
     {

@@ -15,6 +15,6 @@ MonoBehaviour:
   effectName: Passive Heal
   effectSprite: {fileID: 0}
   description: 
-  duration: 0
+  duration: 5
   tickInterval: 1
-  healAmount: 0
+  healAmount: 1
