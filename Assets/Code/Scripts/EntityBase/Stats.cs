@@ -5,6 +5,7 @@ public class Stats : MonoBehaviour
 {
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
+    [SerializeField] protected float damage;
 
     private void Awake()
     {
@@ -34,5 +35,10 @@ public class Stats : MonoBehaviour
     public bool IsHealthFull()
     {
         return currentHealth == maxHealth;
+    }
+    
+    public float GetDamage()
+    {
+        return damage;
     }
 }

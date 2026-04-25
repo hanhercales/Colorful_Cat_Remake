@@ -7,6 +7,8 @@ public class Movement : MonoBehaviour
     protected bool isGrounded;
     protected bool canMove = true;
     
+    [SerializeField] protected EntityDamage hitbox;
+    [SerializeField] protected FormSkill formSkill;
     [SerializeField] protected float moveSpeed = 3f;
     [SerializeField] protected LayerMask groundLayer;
     [SerializeField] protected Transform groundCheck;
@@ -15,6 +17,11 @@ public class Movement : MonoBehaviour
     protected virtual void CheckIfGrounded(){}
     protected virtual void Flip(){}
 
+    protected virtual void Start()
+    {
+        hitbox.Initialize(this.gameObject, formSkill);
+    }
+    
     public void SetSpeed(float speed)
     {
         moveSpeed = speed;
