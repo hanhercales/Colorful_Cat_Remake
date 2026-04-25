@@ -12,6 +12,16 @@ public class PlayerMovement : Movement
     [SerializeField] private int maxAirAction = 2;
     [SerializeField] private int airActionsRemaining;
 
+    public bool canDoubleJump,
+                 canJumpAttack,
+                 canJumpShoot,
+                 canDash,
+                 canClimbLadder,
+                 canDoubleStrike,
+                 canSpecialAttack,
+                 canPull,
+                 canPush;
+
     private void Awake()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();

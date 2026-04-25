@@ -1,16 +1,66 @@
 using UnityEngine;
 
-public class UnlockMachanic : MonoBehaviour
+[CreateAssetMenu(fileName = "NewMechanic", menuName = "Ability/UnlockMachanic")]
+public class UnlockMachanic : PassiveAbility
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public enum MechanicType
     {
-        
+        DoubleJump,
+        JumpAttack,
+        JumpShoot,
+        Dash,
+        ClimbLadder,
+        DoubleStrike,
+        SpecialAttack,
+        Pull,
+        Push
+    }
+    
+    public MechanicType mechanicType;
+
+    public override void OnEquip(GameObject player)
+    {
+        if (player.TryGetComponent(out PlayerMovement controller))
+            SetMechanic(controller, true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnUnequip(GameObject player)
     {
-        
+        if (player.TryGetComponent(out PlayerMovement controller))
+            SetMechanic(controller, false);
+    }
+
+    private void SetMechanic(PlayerMovement controller, bool value)
+    {
+        switch (mechanicType)
+        {
+            case MechanicType.DoubleJump: 
+                controller.canDoubleJump = value; 
+                break;
+            case MechanicType.JumpAttack: 
+                controller.canJumpAttack = value; 
+                break;
+            case MechanicType.Dash: 
+                controller.canDash = value; 
+                break;
+            case MechanicType.JumpShoot:
+                controller.canJumpShoot = value;
+                break;
+            case MechanicType.ClimbLadder: 
+                controller.canClimbLadder = value; 
+                break;
+            case MechanicType.DoubleStrike: 
+                controller.canDoubleStrike = value; 
+                break;
+            case MechanicType.SpecialAttack: 
+                controller.canSpecialAttack = value; 
+                break;
+            case MechanicType.Pull:
+                controller.canPull = value;
+                break;
+            case MechanicType.Push:
+                controller.canPush = value;
+                break;
+        }
     }
 }
