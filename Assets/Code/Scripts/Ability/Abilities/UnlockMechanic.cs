@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewMechanic", menuName = "Ability/UnlockMachanic")]
+[CreateAssetMenu(fileName = "NewMechanic", menuName = "Ability/UnlockMechanic")]
 public class UnlockMechanic : PassiveAbility
 {
     public enum MechanicType

@@ -32,6 +32,11 @@ public class PlayerMovement : Movement
     void Update()
     {
         HandleAttack(Input.GetKeyDown(KeyCode.J));
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            playerStateMachine.EnhanceState();
+        }
         
         if(!playerStateMachine.IsInActionState())
         {
