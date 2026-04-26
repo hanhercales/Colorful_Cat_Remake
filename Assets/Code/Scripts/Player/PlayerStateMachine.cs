@@ -31,6 +31,7 @@ public class PlayerStateMachine : MonoBehaviour
     }
     
     public PlayerState currentState;
+    public AbilityHandler abilityHandler;
     
     private Animator animator;
     
@@ -145,15 +146,36 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void AttackState(bool isGrounded, int airActionsRemaining)
     {
-            if(isGrounded)
+        if (!abilityHandler.CanUseBasicAttack()) return;
+    
+        if(isGrounded)
+        {
+            ChangeState(PlayerState.Attack);
+            abilityHandler.ExecuteBasicAttack();
+        }
+        else
+        {
+            if(airActionsRemaining > 0)
             {
-                ChangeState(PlayerState.Attack);
+                ChangeState(PlayerState.JumpAttack);
+                abilityHandler.ExecuteBasicAttack();
             }
-            else
-            {
-                if(airActionsRemaining > 0)
-                    ChangeState(PlayerState.JumpAttack);
-            }
+        }
+    }
+    
+    public void SpecialAttackState()
+    {
+        if (!abilityHandler.CanUseSpecial()) return;
+
+        ChangeState(PlayerState.SpecialAttack);
+        abilityHandler.ExecuteSpecialAttack();
+    }
+
+    public void EnhanceState()
+    {
+        if (!abilityHandler.CanUseBuff()) return;
+        
+        abilityHandler.ExecuteBuffSkill();
     }
     
     public void HurtState()
