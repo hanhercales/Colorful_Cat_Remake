@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 3618676028876561099}
   - component: {fileID: 6275333125662404022}
   - component: {fileID: 8031583874664695388}
+  - component: {fileID: 1468458012409423151}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -239,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitbox: {fileID: 2633409606764425377}
-  formSkill: {fileID: 0}
+  formSkill: {fileID: 11400000, guid: ceeabee882cec494fb42abc73bb385d1, type: 2}
   moveSpeed: 3
   groundLayer:
     serializedVersion: 2
@@ -271,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  abilityHandler: {fileID: 1468458012409423151}
 --- !u!114 &6275333125662404022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +301,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EffectHandler
   activeEffects: []
+--- !u!114 &1468458012409423151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2922579255807495198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae4d4e573872204abd6b61aca55c048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityHandler
+  animator: {fileID: 7683036190614402450}
+  hitbox: {fileID: 2633409606764425377}
+  rawBasicAttack: {fileID: 11400000, guid: ceeabee882cec494fb42abc73bb385d1, type: 2}
+  infusedBasicAttack: {fileID: 11400000, guid: e84a10da4a35ab64282078a4b3eb3766, type: 2}
+  specialAttack: {fileID: 0}
+  buffSkill: {fileID: 11400000, guid: 00efa66eeabc6c54aabfed1a8f504849, type: 2}
+  infusionDuration: 5
+  equippedAbilities: []
 --- !u!1 &5787829118798245722
 GameObject:
   m_ObjectHideFlags: 0
