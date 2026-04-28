@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f5539fe0d8c3440ad0a4c843bce411, type: 3}
   m_Name: BurnAttack
   m_EditorClassIdentifier: Assembly-CSharp::FormSkill
-  id: 
-  abilityName: 
-  description: 
+  abilityName: Burn Attack
+  description: Hit will burn enemies and destroy projectiles
   icon: {fileID: 0}
   cooldownTime: 0
-  animationClip: {fileID: 0}
-  effectsToApply: []
-  canDestroyProjectile: 0
+  effectsToApply:
+  - {fileID: 11400000, guid: edb29f585a81bec4a8c60f287b5f49e8, type: 2}
+  canDestroyProjectile: 1
   isRangedAttack: 0
   projectile: {fileID: 0}

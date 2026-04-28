@@ -5,7 +5,6 @@ public class ActiveAbility : Ability
 {
     public float cooldownTime;
     //public float castTime;
-    public AnimationClip animationClip;
     
     public List<Effect>  effectsToApply;
 

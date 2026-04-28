@@ -87,11 +87,4 @@ public class AbilityHandler : MonoBehaviour
     {
         cooldownTimers[ability] = Time.time + ability.cooldownTime;
     }
-
-    private void TriggerAnimation(AnimationClip clip, string fallback)
-    {
-        if (animator == null) return;
-        if (clip != null) animator.SetTrigger(clip.name);
-        else animator.SetTrigger(fallback);
-    }
 }
