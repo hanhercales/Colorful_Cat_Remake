@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f5539fe0d8c3440ad0a4c843bce411, type: 3}
   m_Name: BurnEnhance
   m_EditorClassIdentifier: Assembly-CSharp::FormSkill
-  id: 
-  abilityName: 
-  description: 
+  abilityName: Burn Enhance
+  description: Timer for Burn Attack
   icon: {fileID: 0}
-  cooldownTime: 0
-  animationClip: {fileID: 0}
+  cooldownTime: 10
   effectsToApply: []
   canDestroyProjectile: 0
   isRangedAttack: 0

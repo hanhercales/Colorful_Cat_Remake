@@ -10,7 +10,6 @@ public class UnlockMechanic : PassiveAbility
         JumpShoot,
         Dash,
         ClimbLadder,
-        DoubleStrike,
         SpecialAttack,
         Pull,
         Push
@@ -48,9 +47,6 @@ public class UnlockMechanic : PassiveAbility
                 break;
             case MechanicType.ClimbLadder: 
                 controller.canClimbLadder = value; 
-                break;
-            case MechanicType.DoubleStrike: 
-                controller.canDoubleStrike = value; 
                 break;
             case MechanicType.SpecialAttack: 
                 controller.canSpecialAttack = value; 
