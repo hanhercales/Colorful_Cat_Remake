@@ -13,8 +13,9 @@ public class PlayerStateMachine : MonoBehaviour
         Fall,
         Hurt,
         Death,
-        Attack,
-        DoubleStrike,
+        Hit1,
+        Hit2,
+        Hit3,
         JumpAttack,
         Shoot,
         JumpShoot,
@@ -37,6 +38,9 @@ public class PlayerStateMachine : MonoBehaviour
     
     private Dictionary<PlayerState, string> stateNameDict = new Dictionary<PlayerState, string>();
 
+    private int comboStep = 0;
+    private bool isComboBuffered = false;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -52,8 +56,9 @@ public class PlayerStateMachine : MonoBehaviour
             { PlayerState.Fall, "Fall" },
             { PlayerState.Hurt, "Hurt" },
             { PlayerState.Death, "Death" },
-            { PlayerState.Attack, "Attack" },
-            { PlayerState.DoubleStrike, "DoubleStrike" },
+            { PlayerState.Hit1, "Hit1" },
+            { PlayerState.Hit2, "Hit2" },
+            { PlayerState.Hit3, "Hit3" },
             { PlayerState.JumpAttack, "JumpAttack" },
             { PlayerState.Shoot, "Shoot" },
             { PlayerState.JumpShoot, "JumpShoot" },
@@ -146,21 +151,61 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void AttackState(bool isGrounded, int airActionsRemaining)
     {
-        if (!abilityHandler.CanUseBasicAttack()) return;
-    
-        if(isGrounded)
+        if (currentState == PlayerState.Hit1 || currentState == PlayerState.Hit2)
         {
-            ChangeState(PlayerState.Attack);
-            abilityHandler.ExecuteBasicAttack();
+            isComboBuffered =  true;
+            return;
         }
-        else
+
+        if (!IsInActionState())
         {
-            if(airActionsRemaining > 0)
+            if (!abilityHandler.CanUseBasicAttack()) return;
+
+            if (isGrounded)
             {
-                ChangeState(PlayerState.JumpAttack);
+                comboStep = 1;
+                isComboBuffered = false;
+                ChangeState(PlayerState.Hit1);
+                abilityHandler.ExecuteBasicAttack();
+            }
+            else
+            {
+                if (airActionsRemaining > 0)
+                {
+                    ChangeState(PlayerState.JumpAttack);
+                    abilityHandler.ExecuteBasicAttack();
+                }
+            }
+        }
+    }
+
+    public void CheckCombo()
+    {
+        if (isComboBuffered)
+        {
+            isComboBuffered = false;
+
+            if (currentState == PlayerState.Hit1)
+            {
+                comboStep = 2;
+                ChangeState(PlayerState.Hit2);
+                abilityHandler.ExecuteBasicAttack();
+            }
+            else if (currentState == PlayerState.Hit2)
+            {
+                comboStep = 3;
+                ChangeState(PlayerState.Hit3);
                 abilityHandler.ExecuteBasicAttack();
             }
         }
+        else ResetCombo();
+    }
+
+    public void ResetCombo()
+    {
+        comboStep = 0;
+        isComboBuffered = false;
+        ChangeState(PlayerState.Idle);
     }
     
     public void SpecialAttackState()
@@ -190,8 +235,9 @@ public class PlayerStateMachine : MonoBehaviour
     
     public bool IsInActionState()
     {
-        return currentState == PlayerState.Attack ||
-               currentState == PlayerState.DoubleStrike ||
+        return currentState == PlayerState.Hit1 ||
+               currentState == PlayerState.Hit2 ||
+               currentState == PlayerState.Hit3 ||
                currentState == PlayerState.SpecialAttack ||
                currentState == PlayerState.Roll ||
                currentState == PlayerState.Dash; 
