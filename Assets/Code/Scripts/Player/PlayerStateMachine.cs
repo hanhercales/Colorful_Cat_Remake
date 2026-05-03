@@ -23,11 +23,8 @@ public class PlayerStateMachine : MonoBehaviour
         Dash,
         Roll,
         ClimbLadder,
-        WallSlide,
         Pull,
         Push,
-        LedgeGrabIdle,
-        LedgeGrabLand,
         DoubleJump
     }
     
@@ -35,8 +32,17 @@ public class PlayerStateMachine : MonoBehaviour
     public AbilityHandler abilityHandler;
     
     private Animator animator;
+
+    [Serializable]
+    public struct StateAnimationMapping
+    {
+        public PlayerState state;
+        public AnimationClip animation;
+    }
     
-    private Dictionary<PlayerState, string> stateNameDict = new Dictionary<PlayerState, string>();
+    public List<StateAnimationMapping> stateAnimations = new List<StateAnimationMapping>();
+    
+    private Dictionary<PlayerState, AnimationClip> stateNameDict = new Dictionary<PlayerState, AnimationClip>();
 
     private int comboStep = 0;
     private bool isComboBuffered = false;
@@ -44,36 +50,19 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        
+        stateNameDict =  new Dictionary<PlayerState, AnimationClip>();
+        foreach (var mapping in stateAnimations)
+        {
+            if (!stateNameDict.ContainsKey(mapping.state))
+            {
+                stateNameDict.Add(mapping.state, mapping.animation);
+            }
+        }
     }
 
     private void Start()
-    {
-        stateNameDict = new Dictionary<PlayerState, string>
-        {
-            { PlayerState.Idle, "Idle" },
-            { PlayerState.Run, "Run" },
-            { PlayerState.Jump, "Jump" },
-            { PlayerState.Fall, "Fall" },
-            { PlayerState.Hurt, "Hurt" },
-            { PlayerState.Death, "Death" },
-            { PlayerState.Hit1, "Hit1" },
-            { PlayerState.Hit2, "Hit2" },
-            { PlayerState.Hit3, "Hit3" },
-            { PlayerState.JumpAttack, "JumpAttack" },
-            { PlayerState.Shoot, "Shoot" },
-            { PlayerState.JumpShoot, "JumpShoot" },
-            { PlayerState.SpecialAttack, "SpecialAttack" },
-            { PlayerState.Dash, "Dash" },
-            { PlayerState.Roll, "Roll" },
-            { PlayerState.ClimbLadder, "ClimbLadder" },
-            { PlayerState.WallSlide, "WallSlide" },
-            { PlayerState.Pull, "Pull" },
-            { PlayerState.Push, "Push" },
-            { PlayerState.LedgeGrabIdle, "LedgeGrabIdle" },
-            { PlayerState.LedgeGrabLand, "LedgeGrabLand" },
-            { PlayerState.DoubleJump, "DoubleJump"}
-        };
-            
+    { 
         ChangeState(PlayerState.Idle);
     }
 
@@ -83,7 +72,7 @@ public class PlayerStateMachine : MonoBehaviour
         
         currentState = newState;
         if(stateNameDict.ContainsKey(currentState))
-            animator.Play(stateNameDict[currentState]);
+            animator.Play(stateNameDict[currentState].name);
     }
 
     public void IdleState()
