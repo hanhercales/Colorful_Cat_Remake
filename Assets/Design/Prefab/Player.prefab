@@ -273,6 +273,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   abilityHandler: {fileID: 1468458012409423151}
+  stateAnimations:
+  - state: 0
+    animation: {fileID: 7400000, guid: 000c61c574de8b64299fef2b1257d95b, type: 2}
+  - state: 1
+    animation: {fileID: 7400000, guid: f78ff577e48312142bc39026970a45da, type: 2}
+  - state: 3
+    animation: {fileID: 7400000, guid: aed6c15260121724a827f823582c3d44, type: 2}
+  - state: 4
+    animation: {fileID: 7400000, guid: 870059df635684b40ae1ad497e98f4ed, type: 2}
+  - state: 5
+    animation: {fileID: 7400000, guid: d25797240e02570458ac2f9a3c47e95b, type: 2}
+  - state: 6
+    animation: {fileID: 7400000, guid: 8ad8583382ce31b43a600a0a589f68c2, type: 2}
+  - state: 7
+    animation: {fileID: 7400000, guid: 5b58bbceeaaf91e4587ad952e30f7021, type: 2}
+  - state: 8
+    animation: {fileID: 7400000, guid: 7864a711be3c3164a9c585fd3805d71f, type: 2}
+  - state: 9
+    animation: {fileID: 7400000, guid: 522da630a2aa4f046ba30925dd4051fb, type: 2}
+  - state: 10
+    animation: {fileID: 7400000, guid: 4562bf2625c408f43be92bc315858864, type: 2}
+  - state: 11
+    animation: {fileID: 7400000, guid: 5d990cc6def8e2d439b359506019d5d1, type: 2}
+  - state: 12
+    animation: {fileID: 7400000, guid: 8378974c504c5aa40bfa2ba3c2420621, type: 2}
+  - state: 13
+    animation: {fileID: 7400000, guid: fbb984f8edf43214fa714c3d93857a97, type: 2}
+  - state: 15
+    animation: {fileID: 7400000, guid: 4929308e28153614695aa86ed3aaed60, type: 2}
+  - state: 16
+    animation: {fileID: 7400000, guid: 6bc3dd2cf6fda0f408c95b3fb8230e63, type: 2}
+  - state: 17
+    animation: {fileID: 7400000, guid: bd637e936e6e28f45ab0f1b92d0d53d1, type: 2}
+  - state: 2
+    animation: {fileID: 7400000, guid: d13450b876970194eaeeed55c959c7e7, type: 2}
+  - state: 18
+    animation: {fileID: 7400000, guid: c7e0e81235c8030479c1551001a6f68f, type: 2}
 --- !u!114 &6275333125662404022
 MonoBehaviour:
   m_ObjectHideFlags: 0
