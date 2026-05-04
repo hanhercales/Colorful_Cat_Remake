@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Code.Scripts.Enum;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -197,19 +198,14 @@ public class PlayerStateMachine : MonoBehaviour
         ChangeState(PlayerState.Idle);
     }
     
-    public void SpecialAttackState()
+    public void ActiveSkillState()
     {
-        if (!abilityHandler.CanUseSpecial()) return;
-
-        ChangeState(PlayerState.SpecialAttack);
-        abilityHandler.ExecuteSpecialAttack();
-    }
-
-    public void EnhanceState()
-    {
-        if (!abilityHandler.CanUseBuff()) return;
+        if (!abilityHandler.CanUseActiveSkill()) return;
         
-        abilityHandler.ExecuteBuffSkill();
+        if(abilityHandler.currentSkillType == FormSkillType.SpecialAttack)
+            ChangeState(PlayerState.SpecialAttack);
+        
+        abilityHandler.ExecuteActiveSkill();
     }
     
     public void HurtState()

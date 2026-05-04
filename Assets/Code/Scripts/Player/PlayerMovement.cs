@@ -35,7 +35,7 @@ public class PlayerMovement : Movement
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            playerStateMachine.EnhanceState();
+            playerStateMachine.ActiveSkillState();
         }
         
         if(!playerStateMachine.IsInActionState())

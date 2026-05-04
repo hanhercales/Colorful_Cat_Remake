@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Code.Scripts.Enum;
+using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
 
 public class AbilityHandler : MonoBehaviour
@@ -7,14 +9,19 @@ public class AbilityHandler : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private EntityDamage hitbox;
 
+    public FormSO currentForm { get; private set; }
     public FormSkill rawBasicAttack;
     public FormSkill infusedBasicAttack;
+    public FormSkillType currentSkillType;
     public FormSkill specialAttack;
     public ActiveAbility buffSkill;
 
-    public float infusionDuration = 5;
+    public float infusionDuration = 5f;
     public bool isInfused { get; private set; }
     private float  infusionTimer = 0f;
+    
+    //test
+    public FormSO testForm;
     
     public List<PassiveAbility> equippedAbilities = new List<PassiveAbility>();
     
@@ -24,6 +31,8 @@ public class AbilityHandler : MonoBehaviour
 
     private void Start()
     {
+        EquipForm(testForm);
+        
         foreach (var passive in equippedAbilities)
         {
             if(passive != null) passive.OnEquip(this.gameObject);
@@ -40,9 +49,29 @@ public class AbilityHandler : MonoBehaviour
         }
     }
 
+    public void EquipForm(FormSO form)
+    {
+        if (form == null) return;
+
+        currentForm = form;
+
+        rawBasicAttack = form.basicAttack;
+        infusedBasicAttack = form.infusedBasicAttack;
+        currentSkillType = form.skillType;
+        specialAttack = form.specialAttack;
+        buffSkill = form.buffSkill;
+        
+        isInfused = false;
+    }
+
     public bool CanUseBasicAttack() => currentBasicAttack != null && IsCooldownFinished(currentBasicAttack);
-    public bool CanUseSpecial() => specialAttack != null && IsCooldownFinished(specialAttack);
-    public bool CanUseBuff() => buffSkill != null && IsCooldownFinished(buffSkill);
+
+    public bool CanUseActiveSkill()
+    {
+        if (currentSkillType == FormSkillType.SpecialAttack)
+            return specialAttack != null && IsCooldownFinished(specialAttack);
+        return buffSkill != null && IsCooldownFinished(buffSkill);
+    }
     
     public void ExecuteBasicAttack()
     {
@@ -54,26 +83,27 @@ public class AbilityHandler : MonoBehaviour
         SetCooldown(currentBasicAttack);
     }
 
-    public void ExecuteSpecialAttack()
+    public void ExecuteActiveSkill()
     {
-        if (hitbox != null)
+        if (currentSkillType == FormSkillType.SpecialAttack)
         {
-            hitbox.Initialize(this.gameObject, specialAttack);
+            if (hitbox != null && !specialAttack.isRangedAttack)
+            {
+                hitbox.Initialize(this.gameObject, specialAttack);
+            }
+            specialAttack.Activate(this.gameObject, null);
+            SetCooldown(specialAttack);
         }
 
-        specialAttack.Activate(this.gameObject, null);
-        
-        SetCooldown(specialAttack);
-    }
-
-    public void ExecuteBuffSkill()
-    {
-        isInfused = true;
-        infusionTimer = infusionDuration;
-
-        buffSkill.Activate(this.gameObject, null);
-
-        SetCooldown(buffSkill);
+        if (currentSkillType == FormSkillType.BuffInfusion)
+        {
+            isInfused = true;
+            
+            infusionTimer = infusionDuration;
+            
+            buffSkill.Activate(this.gameObject, null);
+            SetCooldown(buffSkill);
+        }
     }
     
     private bool IsCooldownFinished(ActiveAbility ability)

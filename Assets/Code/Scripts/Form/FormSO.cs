@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Code.Scripts.Enum;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "FormSO", menuName = "FormSO")]
 public class FormSO : ScriptableObject
 {
     public string formName;
