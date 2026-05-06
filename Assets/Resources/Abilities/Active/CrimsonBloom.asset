@@ -15,7 +15,7 @@ MonoBehaviour:
   abilityName: Crimson Bloom
   description: 
   icon: {fileID: 0}
-  cooldownTime: 0
+  cooldownTime: 10
   effectsToApply:
   - {fileID: 11400000, guid: 458c6513d9e13f043b3d1180a235ae7c, type: 2}
   canDestroyProjectile: 1

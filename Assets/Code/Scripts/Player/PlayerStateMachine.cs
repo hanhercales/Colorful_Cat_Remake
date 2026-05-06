@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Code.Scripts.Enum;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de52f547421f1a0409d6fddda9b46be3, type: 3}
-  m_Name: Orange
+  m_Name: Red
   m_EditorClassIdentifier: Assembly-CSharp::FormSO
-  formName: Orange
-  description: Lorem Ipsum
+  formName: Red
+  description: 
   icon: {fileID: 0}
-  formType: 2
+  formType: 1
   basicAttack: {fileID: 11400000, guid: ceeabee882cec494fb42abc73bb385d1, type: 2}
-  skillType: 2
-  specialAttack: {fileID: 0}
-  buffSkill: {fileID: 11400000, guid: 00efa66eeabc6c54aabfed1a8f504849, type: 2}
-  infusedBasicAttack: {fileID: 11400000, guid: e84a10da4a35ab64282078a4b3eb3766, type: 2}
+  skillType: 1
+  specialAttack: {fileID: 11400000, guid: b353c867db18a7541bc5d74454a9ce2c, type: 2}
+  buffSkill: {fileID: 0}
+  infusedBasicAttack: {fileID: 0}

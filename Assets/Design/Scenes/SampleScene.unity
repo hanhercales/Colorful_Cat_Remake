@@ -257,6 +257,83 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &986184614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2922579255807495198, guid: 28d62411308642142802726aa1ec578a, type: 3}
+  m_PrefabInstance: {fileID: 3773320148063531539}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1092107100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1092107103}
+  - component: {fileID: 1092107102}
+  - component: {fileID: 1092107101}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1092107101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092107100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8cabf8acc6ae44db61567a51bf7db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryTester
+  testFormRed: {fileID: 11400000, guid: 79958c8329821ba43b347e96438d1f02, type: 2}
+  testFormBlue: {fileID: 11400000, guid: 5de346842ffa31a45a13b3d451979c07, type: 2}
+  testHealthPotion: {fileID: 11400000, guid: 23f4f4624ff0c1f4b9df11aae6065b35, type: 2}
+--- !u!114 &1092107102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092107100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc83a84a27b05b43b3f2885dbb58de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  maxMainSlot: 20
+  content: []
+  equipmentSlots:
+  - itemInSlot: {fileID: 0}
+    itemQuantity: 0
+  - itemInSlot: {fileID: 0}
+    itemQuantity: 0
+  activeSlotIndex: 0
+  consumableSlot:
+    itemInSlot: {fileID: 0}
+    itemQuantity: 0
+  player: {fileID: 986184614}
+--- !u!4 &1092107103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092107100}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11041, y: 3.6909, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1423780516 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1901743954105124217, guid: 28d62411308642142802726aa1ec578a, type: 3}
@@ -584,3 +661,4 @@ SceneRoots:
   - {fileID: 3773320148063531539}
   - {fileID: 395409233}
   - {fileID: 2009754946}
+  - {fileID: 1092107103}

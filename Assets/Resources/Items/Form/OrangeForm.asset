@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9403824e79a58cc4e83c72ee27661b61, type: 3}
+  m_Name: OrangeForm
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentItem
+  itemName: Orange Form
+  itemDescription: 
+  itemIcon: {fileID: 0}
+  maxStackSize: 1
+  itemType: 0
+  form: {fileID: 11400000, guid: 54f8b062907e70f4fbf66b5ebc1206e1, type: 2}

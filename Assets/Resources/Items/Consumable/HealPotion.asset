@@ -10,17 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d819e782eb2f134dbc76ebcb862f348, type: 3}
-  m_Name: HP001
+  m_Name: HealPotion
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableItem
-  itemID: HP001
-  itemName: Health Potion (S)
-  itemIcon: {fileID: 0}
-  itemType: 0
+  itemName: Heal Potion
   itemDescription: 
-  maxQuantity: 99
-  quantity: 0
-  price: 0
-  isEquipped: 0
-  targetInventoryName: 
-  itemEffect: 0
-  effectValue: 0
+  itemIcon: {fileID: 0}
+  maxStackSize: 99
+  itemType: 1
+  effects:
+  - {fileID: 11400000, guid: 894d40e932df5754b8648f7dfb888359, type: 2}
