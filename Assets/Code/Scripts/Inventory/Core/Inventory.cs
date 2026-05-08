@@ -180,6 +180,37 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void MoveItem(InventorySlot slot1, InventorySlot slot2)
+    {
+        if (slot1 == null || slot2 == null || slot1.IsEmpty()) return;
+
+        if (!slot2.IsEmpty() && slot1.itemInSlot == slot2.itemInSlot &&
+            slot1.itemInSlot is not EquipmentItem)
+        {
+            int remainAmount = slot1.itemInSlot.maxStackSize - slot2.itemQuantity;
+
+            if (remainAmount > 0)
+            {
+                if (slot1.itemQuantity <= remainAmount)
+                {
+                    slot2.AddQuantity(slot1.itemQuantity);
+                    slot1.ClearSlot();
+                }
+                else
+                {
+                    slot2.AddQuantity(remainAmount);
+                    slot1.RemoveQuantity(remainAmount);
+                }
+            }
+        }
+        else
+        {
+            SwapSlot(slot1, slot2);
+        }
+        
+        OnInventoryChanged?.Invoke();
+    }
+
     public void SwapActiveForm()
     {
         activeSlotIndex = activeSlotIndex == 0 ? 1 : 0;
