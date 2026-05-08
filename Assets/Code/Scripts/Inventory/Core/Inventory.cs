@@ -1,96 +1,249 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public InventoryType inventoryType = InventoryType.Main;
-    
-    [SerializeField] private int size = 20;
-    [SerializeField] private List<Item> content = new List<Item>();
-    
-    private event System.Action onInventoryChanged;
+    public static Inventory Instance { get; private set; }
+ 
+    public event Action OnInventoryChanged;
+    public event Action OnEquipmentChanged;
 
-    public enum InventoryType
-    {
-        Main,
-        Equipment
-    }
+    public int maxMainSlot = 20;
     
-    public bool AddItem(Item item, int amount = 1)
-    {
-        if(item == null) return false;
-        if(content.Count >= size) return false;
+    public List<InventorySlot> content =  new List<InventorySlot>();
+    
+    public InventorySlot[] equipmentSlots = new InventorySlot[2];
+    public int activeSlotIndex = 0;
+    
+    public InventorySlot consumableSlot;
 
-        foreach (Item i in content)
-        {
-            if(i.itemID == item.itemID && i.quantity < i.maxQuantity - 1)
-            {
-                i.AddQuantity(amount);
-                onInventoryChanged?.Invoke();
-                return true;
-            }
-        }
+    [SerializeField] private GameObject player;
+    private AbilityHandler playerAbilityHandler;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
         
-        content.Add(item);
-        onInventoryChanged?.Invoke();
-        return true;
+        if(player != null)
+            playerAbilityHandler = player.GetComponent<AbilityHandler>();
+
+        InitializeInventory();
     }
 
-    public bool RemoveItem(Item item, int amount = 1)
+    private void InitializeInventory()
     {
-        if(item == null) return false;
+        for(int i = 0; i < maxMainSlot; i++)
+            content.Add(new InventorySlot(null, 0));
 
-        foreach (Item i in content)
+        equipmentSlots[0] = new InventorySlot(null, 0);
+        equipmentSlots[1] = new InventorySlot(null, 0);
+        consumableSlot = new InventorySlot(null, 0);
+    }
+
+    public bool AddItem(Item itemToAdd, int amount = 1)
+    {
+        if(itemToAdd == null || amount <= 0) return false;
+
+        int currentAmount = amount;
+        
+        if(!(itemToAdd is EquipmentItem))
         {
-            if(i.itemID == item.itemID)
-            {
-                item = i;
-                break;
-            }
+            amount = AddToStack(content, itemToAdd, amount);
+        }
+
+        if (amount > 0)
+        {
+            amount = AddNewItem(content, itemToAdd, amount);
         }
         
-        if(item != null)
+        if (amount < currentAmount)
         {
-            item.RemoveQuantity(amount);
-            if(item.quantity <= 0)
-                content.Remove(item);
-            onInventoryChanged?.Invoke();
+            OnInventoryChanged?.Invoke();
             return true;
         }
         
         return false;
     }
 
-    public bool EquipItem(Item item)
+    private int AddToStack(List<InventorySlot> slots, Item itemToAdd, int amount = 1)
     {
-        if(item == null || item.isEquipped) return false;
-        
-        item.Equip();
-        
-        onInventoryChanged?.Invoke();
-        return true;
-    }
-    
-    public bool UnequipItem(Item item)
-    {
-        if(item == null || !item.isEquipped) return false;
-        
-        item.Unequip();
-        
-        onInventoryChanged?.Invoke();
-        return true;
+        foreach (InventorySlot slot in slots)
+        {
+            if (!slot.IsEmpty() && slot.itemInSlot == itemToAdd)
+            {
+                int remainAmount = itemToAdd.maxStackSize - slot.itemQuantity;
+
+                if (remainAmount > 0)
+                {
+                    if (amount <= remainAmount)
+                    {
+                        slot.AddQuantity(amount);
+                        return 0;
+                    }
+                    else
+                    {
+                        slot.AddQuantity(remainAmount);
+                        amount -=  remainAmount;
+                    }
+                }
+            }
+        }
+
+        return amount;
     }
 
-    public bool SwapItem(Item item1, Item item2)
+    private int AddNewItem(List<InventorySlot> slots, Item itemToAdd, int amount = 1)
     {
-        (item1, item2) = (item2, item1);
+        foreach (InventorySlot slot in slots)
+        {
+            if (slot.IsEmpty())
+            {
+                slot.itemInSlot = itemToAdd;
+                
+                if(amount <= itemToAdd.maxStackSize)
+                {
+                    slot.AddQuantity(amount);
+                    return 0;
+                }
+                else
+                {
+                    slot.itemQuantity = itemToAdd.maxStackSize;
+                    amount -= itemToAdd.maxStackSize;
+                }
+            }
+        }
         
-        onInventoryChanged?.Invoke();
-        return true;
+        return amount;
     }
 
-    public List<Item> GetContent()
+    public void EquipItem(int contentIndex)
     {
-        return content;
+        InventorySlot slot = content[contentIndex];
+
+        if (slot.IsEmpty()) return;
+
+        if (slot.itemInSlot is EquipmentItem formItem)
+        {
+            SwapSlot(slot, equipmentSlots[activeSlotIndex]);
+            
+            if(playerAbilityHandler != null)
+                playerAbilityHandler.EquipForm(formItem.form);
+        }
+        else if (slot.itemInSlot is ConsumableItem consumableItem)
+        {
+            if (!consumableSlot.IsEmpty() && consumableSlot.itemInSlot == consumableItem)
+            {
+                int remainAmount = consumableItem.maxStackSize - consumableSlot.itemQuantity;
+
+                if (remainAmount > 0)
+                {
+                    if (slot.itemQuantity <= remainAmount)
+                    {
+                        consumableSlot.AddQuantity(slot.itemQuantity);
+                        slot.ClearSlot();
+                    }
+                    else
+                    {
+                        consumableSlot.AddQuantity(remainAmount);
+                        slot.RemoveQuantity(remainAmount);
+                    }
+                }
+            }
+            else
+            {
+                SwapSlot(slot, consumableSlot);
+            }
+        }
+        
+        OnInventoryChanged?.Invoke();
+        OnEquipmentChanged?.Invoke();
+    }
+
+    private void SwapSlot(InventorySlot slot1, InventorySlot slot2)
+    {
+        Item tempItem = slot2.itemInSlot;
+        int tempQuantity = slot2.itemQuantity;
+        
+        slot2.itemInSlot = slot1.itemInSlot;
+        slot2.itemQuantity = slot1.itemQuantity;
+
+        if (tempItem != null)
+        {
+            slot1.itemInSlot = tempItem;
+            slot1.itemQuantity = tempQuantity;
+        }
+        else
+        {
+            slot1.ClearSlot();
+        }
+    }
+
+    public void MoveItem(InventorySlot slot1, InventorySlot slot2)
+    {
+        if (slot1 == null || slot2 == null || slot1.IsEmpty()) return;
+
+        if (!slot2.IsEmpty() && slot1.itemInSlot == slot2.itemInSlot &&
+            slot1.itemInSlot is not EquipmentItem)
+        {
+            int remainAmount = slot1.itemInSlot.maxStackSize - slot2.itemQuantity;
+
+            if (remainAmount > 0)
+            {
+                if (slot1.itemQuantity <= remainAmount)
+                {
+                    slot2.AddQuantity(slot1.itemQuantity);
+                    slot1.ClearSlot();
+                }
+                else
+                {
+                    slot2.AddQuantity(remainAmount);
+                    slot1.RemoveQuantity(remainAmount);
+                }
+            }
+        }
+        else
+        {
+            SwapSlot(slot1, slot2);
+        }
+        
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void SwapActiveForm()
+    {
+        activeSlotIndex = activeSlotIndex == 0 ? 1 : 0;
+        
+        Item activeItem = equipmentSlots[activeSlotIndex].itemInSlot;
+
+        if (activeItem != null && activeItem is EquipmentItem formItem)
+        {
+            if(playerAbilityHandler != null)
+                playerAbilityHandler.EquipForm(formItem.form);
+        }
+        else
+        {
+            if (playerAbilityHandler != null) 
+                playerAbilityHandler.EquipForm(null);
+        }
+        
+        OnEquipmentChanged?.Invoke();
+    }
+
+    public void UseConsumable()
+    {
+        if (consumableSlot.IsEmpty() || player == null) return;
+
+        if (consumableSlot.itemInSlot is ConsumableItem consumableItem)
+        {
+            bool used = consumableItem.ApplyEffect(player);
+
+            if (used)
+            {
+                consumableSlot.RemoveQuantity(1);
+                OnEquipmentChanged?.Invoke();
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Code.Scripts.Enum;
 using Unity.VisualScripting.FullSerializer.Internal;
 using UnityEngine;
 
@@ -20,9 +19,6 @@ public class AbilityHandler : MonoBehaviour
     public bool isInfused { get; private set; }
     private float  infusionTimer = 0f;
     
-    //test
-    public FormSO testForm;
-    
     public List<PassiveAbility> equippedAbilities = new List<PassiveAbility>();
     
     private Dictionary<ActiveAbility, float> cooldownTimers = new Dictionary<ActiveAbility, float>();
@@ -31,8 +27,6 @@ public class AbilityHandler : MonoBehaviour
 
     private void Start()
     {
-        EquipForm(testForm);
-        
         foreach (var passive in equippedAbilities)
         {
             if(passive != null) passive.OnEquip(this.gameObject);

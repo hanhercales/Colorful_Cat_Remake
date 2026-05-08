@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de52f547421f1a0409d6fddda9b46be3, type: 3}
+  m_Name: Red
+  m_EditorClassIdentifier: Assembly-CSharp::FormSO
+  formName: Red
+  description: 
+  icon: {fileID: 0}
+  formType: 1
+  basicAttack: {fileID: 11400000, guid: ceeabee882cec494fb42abc73bb385d1, type: 2}
+  skillType: 1
+  specialAttack: {fileID: 11400000, guid: b353c867db18a7541bc5d74454a9ce2c, type: 2}
+  buffSkill: {fileID: 0}
+  infusedBasicAttack: {fileID: 0}

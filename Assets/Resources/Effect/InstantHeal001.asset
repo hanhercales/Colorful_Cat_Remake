@@ -15,4 +15,4 @@ MonoBehaviour:
   effectName: Small Heal
   effectSprite: {fileID: 0}
   description: 
-  effectValue: 0
+  effectValue: 2
