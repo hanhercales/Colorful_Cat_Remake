@@ -9,11 +9,13 @@ public class AbilityHandler : MonoBehaviour
     [SerializeField] private EntityDamage hitbox;
 
     public FormSO currentForm { get; private set; }
+    
     public FormSkill rawBasicAttack;
     public FormSkill infusedBasicAttack;
-    public FormSkillType currentSkillType;
     public FormSkill specialAttack;
+    
     public ActiveAbility buffSkill;
+    public FormSkillType currentSkillType;
 
     public float infusionDuration = 5f;
     public bool isInfused { get; private set; }

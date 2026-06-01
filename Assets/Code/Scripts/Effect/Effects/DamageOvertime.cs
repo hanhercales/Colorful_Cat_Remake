@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DmgOT", menuName = "Effects/Dmg OT")]
+[CreateAssetMenu(fileName = "DOT", menuName = "Effects/DOT")]
 public class DamageOvertime : OvertimeEffect
 {
     public float damage;

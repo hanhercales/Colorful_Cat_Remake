@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "NewActiveAbility", menuName = "Ability/ActiveAbility")]
 public class ActiveAbility : Ability
 {
     public float cooldownTime;
