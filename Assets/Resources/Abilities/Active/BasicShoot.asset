@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4f5539fe0d8c3440ad0a4c843bce411, type: 3}
-  m_Name: BurnEnhance
+  m_Name: BasicShoot
   m_EditorClassIdentifier: Assembly-CSharp::FormSkill
-  abilityName: Burn Enhance
-  description: Timer for Burn Attack
+  abilityName: 
+  description: 
   icon: {fileID: 0}
-  cooldownTime: 10
+  cooldownTime: 0
   effectsToApply: []
   canDestroyProjectile: 0
-  isRangedAttack: 0
-  projectile: {fileID: 0}
+  destroyOnHit: 1
+  isRangedAttack: 1
+  projectile: {fileID: 7982963383397685360, guid: 2cad263d7280c554396890a7b81fe5f3, type: 3}

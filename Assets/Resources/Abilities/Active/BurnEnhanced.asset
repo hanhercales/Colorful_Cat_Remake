@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d9020e39f7aa643b6766ed0b15166c, type: 3}
-  m_Name: ShadowSummon
-  m_EditorClassIdentifier: Assembly-CSharp::ShadowSummon
-  effectName: Shadow Summon
-  effectSprite: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 6d9c700257aab6845a44fed43b140fae, type: 3}
+  m_Name: BurnEnhanced
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveAbility
+  abilityName: Burn Enhanced Attack
   description: 
-  duration: 0
-  tickInterval: 1
-  shadowPrefab: {fileID: 0}
+  icon: {fileID: 0}
+  cooldownTime: 10
+  effectsToApply: []
