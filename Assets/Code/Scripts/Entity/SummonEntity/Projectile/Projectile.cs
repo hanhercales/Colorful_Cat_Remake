@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 15f;
+    public float speed = 10f;
     public float lifetime = 3f;
     
     private GameObject source;
@@ -17,21 +17,13 @@ public class Projectile : MonoBehaviour
 
     public string targetTag = "Enemy";
 
-    private void OnEnable()
-    {
-        timer = lifetime; 
-    }
-    
-    public void Initialize(GameObject source, Vector2 direction, List<Effect> effects, bool destroyOnHit)
+    public void Initialize(GameObject source, Vector2 direction, List<Effect> effects)
     {
         this.source = source;
         this.direction = direction.normalized;
         this.effectsToApply = effects;
-        this.destroyOnHit = destroyOnHit;
         
         timer = lifetime;
-        
-        Debug.Log(source.name + '\n' + direction + '\n' + timer);
     }
 
     private void Update()
@@ -43,11 +35,11 @@ public class Projectile : MonoBehaviour
             SimpleObjectPool.Instance.ReturnToPool(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collider.CompareTag(targetTag))
+        if (other.CompareTag(targetTag))
         {
-            if (collider.TryGetComponent(out EffectHandler handler))
+            if (other.TryGetComponent(out EffectHandler handler))
             {
                 if (effectsToApply != null)
                 {
@@ -56,7 +48,7 @@ public class Projectile : MonoBehaviour
                 }
             }
 
-            if (collider.TryGetComponent(out Stats stats))
+            if (other.TryGetComponent(out Stats stats))
             {
                 stats.TakeDamage(damage);
             }

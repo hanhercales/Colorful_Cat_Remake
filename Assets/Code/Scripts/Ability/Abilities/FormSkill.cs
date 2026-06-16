@@ -4,7 +4,6 @@ using UnityEngine;
 public class FormSkill : ActiveAbility
 {
     public bool canDestroyProjectile;
-    public bool destroyOnHit;
     public bool isRangedAttack;
     public GameObject projectile;
 
@@ -15,10 +14,10 @@ public class FormSkill : ActiveAbility
             GameObject prjClone = SimpleObjectPool.Instance.GetFromPool(projectile);
             prjClone.transform.position = source.transform.position;
 
-            if (projectile.TryGetComponent(out Projectile prj))
+            if (prjClone.TryGetComponent(out Projectile prj))
             {
                 Vector2 shootDirection = source.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-                prj.Initialize(source, shootDirection, effectsToApply, destroyOnHit);
+                prj.Initialize(source, shootDirection, effectsToApply);
             }
         }
         else
