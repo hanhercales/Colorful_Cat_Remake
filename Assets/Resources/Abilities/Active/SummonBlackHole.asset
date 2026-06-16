@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895b1c8fbf96c124b87406796ccaf831, type: 3}
   m_Name: SummonBlackHole
   m_EditorClassIdentifier: Assembly-CSharp::SummonSkill
-  abilityName: 
-  description: 
+  abilityName: Summon Black Hole
+  description: Summon a Black Hole.
   icon: {fileID: 0}
-  cooldownTime: 0
-  effectsToApply: []
+  cooldownTime: 10
+  effectsToApply:
+  - {fileID: 11400000, guid: 5fdffe05d37576744aafa504c7f4baaa, type: 2}
   canDestroyProjectile: 0
   isRangedAttack: 0
   projectile: {fileID: 0}
-  summonPrefab: {fileID: 0}
+  summonPrefab: {fileID: 3580842074747560299, guid: 8ef3cc97133f3e74881c9cc6bc5f9a29, type: 3}
   lifetime: 5

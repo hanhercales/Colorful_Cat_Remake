@@ -69,13 +69,19 @@ public class AbilityHandler : MonoBehaviour
         return buffSkill != null && IsCooldownFinished(buffSkill);
     }
     
+    public bool IsBasicAttackRanged => currentBasicAttack != null && currentBasicAttack.isRangedAttack;
+    //public bool IsSpecialAttackRanged => specialAttack != null && specialAttack.isRangedAttack;
+    
     public void ExecuteBasicAttack()
     {
-        if (hitbox != null)
+        if (currentBasicAttack == null) return;
+
+        if (!currentBasicAttack.isRangedAttack && hitbox != null)
         {
             hitbox.Initialize(this.gameObject, currentBasicAttack);
         }
 
+        currentBasicAttack.Activate(this.gameObject, null);
         SetCooldown(currentBasicAttack);
     }
 
@@ -94,7 +100,6 @@ public class AbilityHandler : MonoBehaviour
         if (currentSkillType == FormSkillType.BuffInfusion)
         {
             isInfused = true;
-            
             infusionTimer = infusionDuration;
             
             buffSkill.Activate(this.gameObject, null);

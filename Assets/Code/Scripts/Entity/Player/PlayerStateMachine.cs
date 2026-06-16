@@ -150,20 +150,32 @@ public class PlayerStateMachine : MonoBehaviour
         {
             if (!abilityHandler.CanUseBasicAttack()) return;
 
-            if (isGrounded)
+            if (abilityHandler.IsBasicAttackRanged)
             {
-                comboStep = 1;
-                isComboBuffered = false;
-                ChangeState(PlayerState.Hit1);
-                abilityHandler.ExecuteBasicAttack();
+                if(isGrounded)
+                    ChangeState(PlayerState.Shoot);
+                else if (airActionsRemaining > 0)
+                    ChangeState(PlayerState.JumpShoot);
+                
+                //abilityHandler.ExecuteBasicAttack();
             }
             else
             {
-                if (airActionsRemaining > 0)
+                if (isGrounded)
                 {
-                    ChangeState(PlayerState.JumpAttack);
-                    abilityHandler.ExecuteBasicAttack();
+                    comboStep = 1;
+                    isComboBuffered = false;
+                    ChangeState(PlayerState.Hit1);
                 }
+                else
+                {
+                    if (airActionsRemaining > 0)
+                    {
+                        ChangeState(PlayerState.JumpAttack);
+                    }
+                }
+                
+                abilityHandler.ExecuteBasicAttack();
             }
         }
     }
@@ -223,6 +235,8 @@ public class PlayerStateMachine : MonoBehaviour
                currentState == PlayerState.Hit2 ||
                currentState == PlayerState.Hit3 ||
                currentState == PlayerState.SpecialAttack ||
+               currentState == PlayerState.Shoot ||
+               currentState == PlayerState.JumpShoot ||
                currentState == PlayerState.Roll ||
                currentState == PlayerState.Dash; 
     }
